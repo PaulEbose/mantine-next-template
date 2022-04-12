@@ -16,6 +16,16 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
     setCookies('mantine-color-scheme', nextColorScheme, { maxAge: 60 * 60 * 24 * 30 });
   };
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
+    toggleColorScheme(mediaQuery.matches ? "dark" : "light")
+    const handleChange = () => {
+      toggleColorScheme(mediaQuery.matches ? "dark" : "light")
+    }
+    mediaQuery.addEventListener("change", handleChange)
+    return () => mediaQuery.removeEventListener("change", handleChange)
+  }, [])
+
   return (
     <>
       <Head>
